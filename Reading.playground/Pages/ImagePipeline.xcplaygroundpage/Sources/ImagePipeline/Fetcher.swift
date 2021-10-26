@@ -94,11 +94,11 @@ public final class Fetcher: Fetching {
     }
     
     public func cancel(_ url: URL) {
-        
+        taskExecuter.cancel(for: url)
     }
     
     public func cancelAll() {
-        
+        taskExecuter.cancelAll()
     }
 }
 
@@ -184,7 +184,7 @@ private let regex = try! NSRegularExpression(pattern:
     ([a-zA-Z][a-zA-Z_-]*)\\s*(?:=(?:"([^"]*)"|([^ \t",;]*)))?
     """, options: [])
 internal func parseCacheControlHeader(_ cacheControl: String) -> [String: String] {
-    // 正規表現で `Cache-Control: public, max-age=60` のようなディレクティブから ["max-age": "60"] のような辞書配列にパースする.
+    // 正規表現で `Cache-Control: public, max-age=60` のような文字列から ["max-age": "60"] のような辞書配列にパースする.
     let matches = regex.matches(in: cacheControl, options: [], range: NSRange(location: 0, length: cacheControl.utf16.count))
     return matches.reduce(into: [String: String]()) { (directives, result) in
         if let range = Range(result.range, in: cacheControl) {
