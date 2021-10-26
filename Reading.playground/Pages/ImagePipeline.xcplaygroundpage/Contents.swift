@@ -2,6 +2,6 @@
 
 import Foundation
 
-print("Hello, World")
+print(ImagePipeline.shared)
 
 //: [Next](@next)
